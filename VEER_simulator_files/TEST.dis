@@ -1,0 +1,345 @@
+
+TEST.exe:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+80000000 <_start>:
+80000000:	70040497          	auipc	s1,0x70040
+80000004:	00048493          	mv	s1,s1
+80000008:	70040917          	auipc	s2,0x70040
+8000000c:	23a90913          	addi	s2,s2,570 # f0040242 <key>
+80000010:	70040a97          	auipc	s5,0x70040
+80000014:	242a8a93          	addi	s5,s5,578 # f0040252 <stateArray>
+80000018:	42c1                	li	t0,16
+8000001a:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+8000001e:	02048007          	vle8.v	v0,(s1)
+80000022:	02090087          	vle8.v	v1,(s2)
+80000026:	2e008057          	vxor.vv	v0,v0,v1
+8000002a:	020a8027          	vse8.v	v0,(s5)
+8000002e:	4d81                	li	s11,0
+80000030:	4325                	li	t1,9
+
+80000032 <rounds>:
+80000032:	70040a17          	auipc	s4,0x70040
+80000036:	fcea0a13          	addi	s4,s4,-50 # f0040000 <plaintext>
+8000003a:	70040997          	auipc	s3,0x70040
+8000003e:	00898993          	addi	s3,s3,8 # f0040042 <sbox>
+80000042:	70040a97          	auipc	s5,0x70040
+80000046:	210a8a93          	addi	s5,s5,528 # f0040252 <stateArray>
+8000004a:	42c1                	li	t0,16
+8000004c:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000050:	020a8107          	vle8.v	v2,(s5)
+80000054:	06298187          	vluxei8.v	v3,(s3),v2
+80000058:	020a81a7          	vse8.v	v3,(s5)
+8000005c:	42c1                	li	t0,16
+8000005e:	70040497          	auipc	s1,0x70040
+80000062:	1f448493          	addi	s1,s1,500 # f0040252 <stateArray>
+80000066:	70040917          	auipc	s2,0x70040
+8000006a:	27090913          	addi	s2,s2,624 # f00402d6 <shiftOffset>
+8000006e:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000072:	02090087          	vle8.v	v1,(s2)
+80000076:	06148187          	vluxei8.v	v3,(s1),v1
+8000007a:	020481a7          	vse8.v	v3,(s1)
+8000007e:	70040917          	auipc	s2,0x70040
+80000082:	1d490913          	addi	s2,s2,468 # f0040252 <stateArray>
+80000086:	4291                	li	t0,4
+80000088:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+8000008c:	4f91                	li	t6,4
+8000008e:	70040997          	auipc	s3,0x70040
+80000092:	28c98993          	addi	s3,s3,652 # f004031a <mixcols>
+
+80000096 <loop_columns>:
+80000096:	4e81                	li	t4,0
+80000098:	5e0ec157          	vmv.v.x	v2,t4
+8000009c:	5e0ec2d7          	vmv.v.x	v5,t4
+800000a0:	5e0ec557          	vmv.v.x	v10,t4
+800000a4:	5e0ec757          	vmv.v.x	v14,t4
+800000a8:	5e0ec957          	vmv.v.x	v18,t4
+800000ac:	5e0ecb57          	vmv.v.x	v22,t4
+800000b0:	5e0ec0d7          	vmv.v.x	v1,t4
+800000b4:	02090307          	vle8.v	v6,(s2)
+800000b8:	08000393          	li	t2,128
+800000bc:	5e03c0d7          	vmv.v.x	v1,t2
+800000c0:	26608757          	vand.vv	v14,v6,v1
+800000c4:	66e03057          	vmsne.vi	v0,v14,0
+800000c8:	9660b557          	vsll.vi	v10,v6,1
+800000cc:	4e6d                	li	t3,27
+800000ce:	5e0e4157          	vmv.v.x	v2,t3
+800000d2:	2ca10557          	vxor.vv	v10,v10,v2,v0.t
+800000d6:	2ea30957          	vxor.vv	v18,v10,v6
+800000da:	70040397          	auipc	t2,0x70040
+800000de:	21838393          	addi	t2,t2,536 # f00402f2 <mask1>
+800000e2:	02038007          	vle8.v	v0,(t2)
+800000e6:	4e81                	li	t4,0
+800000e8:	5e0ec1d7          	vmv.v.x	v3,t4
+800000ec:	5e0ec157          	vmv.v.x	v2,t4
+800000f0:	28a18157          	vor.vv	v2,v10,v3,v0.t
+800000f4:	70040397          	auipc	t2,0x70040
+800000f8:	20238393          	addi	t2,t2,514 # f00402f6 <mask2>
+800000fc:	02038007          	vle8.v	v0,(t2)
+80000100:	4e81                	li	t4,0
+80000102:	5e0ec1d7          	vmv.v.x	v3,t4
+80000106:	29218157          	vor.vv	v2,v18,v3,v0.t
+8000010a:	70040397          	auipc	t2,0x70040
+8000010e:	1f038393          	addi	t2,t2,496 # f00402fa <mask3>
+80000112:	02038007          	vle8.v	v0,(t2)
+80000116:	4e81                	li	t4,0
+80000118:	5e0ec1d7          	vmv.v.x	v3,t4
+8000011c:	28618157          	vor.vv	v2,v6,v3,v0.t
+80000120:	70040397          	auipc	t2,0x70040
+80000124:	1de38393          	addi	t2,t2,478 # f00402fe <mask4>
+80000128:	02038007          	vle8.v	v0,(t2)
+8000012c:	4e81                	li	t4,0
+8000012e:	5e0ec1d7          	vmv.v.x	v3,t4
+80000132:	28618157          	vor.vv	v2,v6,v3,v0.t
+80000136:	70040397          	auipc	t2,0x70040
+8000013a:	1bc38393          	addi	t2,t2,444 # f00402f2 <mask1>
+8000013e:	02038007          	vle8.v	v0,(t2)
+80000142:	0e21a257          	vredxor.vs	v4,v2,v3
+80000146:	284182d7          	vor.vv	v5,v4,v3,v0.t
+8000014a:	70040397          	auipc	t2,0x70040
+8000014e:	1a838393          	addi	t2,t2,424 # f00402f2 <mask1>
+80000152:	02038007          	vle8.v	v0,(t2)
+80000156:	4e81                	li	t4,0
+80000158:	5e0ec157          	vmv.v.x	v2,t4
+8000015c:	28610157          	vor.vv	v2,v6,v2,v0.t
+80000160:	70040397          	auipc	t2,0x70040
+80000164:	19638393          	addi	t2,t2,406 # f00402f6 <mask2>
+80000168:	02038007          	vle8.v	v0,(t2)
+8000016c:	4e81                	li	t4,0
+8000016e:	5e0ec1d7          	vmv.v.x	v3,t4
+80000172:	28a18157          	vor.vv	v2,v10,v3,v0.t
+80000176:	70040397          	auipc	t2,0x70040
+8000017a:	18438393          	addi	t2,t2,388 # f00402fa <mask3>
+8000017e:	02038007          	vle8.v	v0,(t2)
+80000182:	4e81                	li	t4,0
+80000184:	5e0ec1d7          	vmv.v.x	v3,t4
+80000188:	29218157          	vor.vv	v2,v18,v3,v0.t
+8000018c:	70040397          	auipc	t2,0x70040
+80000190:	17238393          	addi	t2,t2,370 # f00402fe <mask4>
+80000194:	02038007          	vle8.v	v0,(t2)
+80000198:	4e81                	li	t4,0
+8000019a:	5e0ec1d7          	vmv.v.x	v3,t4
+8000019e:	28618157          	vor.vv	v2,v6,v3,v0.t
+800001a2:	70040397          	auipc	t2,0x70040
+800001a6:	15438393          	addi	t2,t2,340 # f00402f6 <mask2>
+800001aa:	02038007          	vle8.v	v0,(t2)
+800001ae:	0e21a257          	vredxor.vs	v4,v2,v3
+800001b2:	3a40bb57          	vslideup.vi	v22,v4,1
+800001b6:	296182d7          	vor.vv	v5,v22,v3,v0.t
+800001ba:	70040397          	auipc	t2,0x70040
+800001be:	13838393          	addi	t2,t2,312 # f00402f2 <mask1>
+800001c2:	02038007          	vle8.v	v0,(t2)
+800001c6:	4e81                	li	t4,0
+800001c8:	5e0ec157          	vmv.v.x	v2,t4
+800001cc:	28610157          	vor.vv	v2,v6,v2,v0.t
+800001d0:	70040397          	auipc	t2,0x70040
+800001d4:	12638393          	addi	t2,t2,294 # f00402f6 <mask2>
+800001d8:	02038007          	vle8.v	v0,(t2)
+800001dc:	4e81                	li	t4,0
+800001de:	5e0ec1d7          	vmv.v.x	v3,t4
+800001e2:	28618157          	vor.vv	v2,v6,v3,v0.t
+800001e6:	70040397          	auipc	t2,0x70040
+800001ea:	11438393          	addi	t2,t2,276 # f00402fa <mask3>
+800001ee:	02038007          	vle8.v	v0,(t2)
+800001f2:	4e81                	li	t4,0
+800001f4:	5e0ec1d7          	vmv.v.x	v3,t4
+800001f8:	28a18157          	vor.vv	v2,v10,v3,v0.t
+800001fc:	70040397          	auipc	t2,0x70040
+80000200:	10238393          	addi	t2,t2,258 # f00402fe <mask4>
+80000204:	02038007          	vle8.v	v0,(t2)
+80000208:	4e81                	li	t4,0
+8000020a:	5e0ec1d7          	vmv.v.x	v3,t4
+8000020e:	29218157          	vor.vv	v2,v18,v3,v0.t
+80000212:	70040397          	auipc	t2,0x70040
+80000216:	0e838393          	addi	t2,t2,232 # f00402fa <mask3>
+8000021a:	02038007          	vle8.v	v0,(t2)
+8000021e:	0e21a257          	vredxor.vs	v4,v2,v3
+80000222:	3a413b57          	vslideup.vi	v22,v4,2
+80000226:	296182d7          	vor.vv	v5,v22,v3,v0.t
+8000022a:	70040397          	auipc	t2,0x70040
+8000022e:	0c838393          	addi	t2,t2,200 # f00402f2 <mask1>
+80000232:	02038007          	vle8.v	v0,(t2)
+80000236:	4e81                	li	t4,0
+80000238:	5e0ec157          	vmv.v.x	v2,t4
+8000023c:	29210157          	vor.vv	v2,v18,v2,v0.t
+80000240:	70040397          	auipc	t2,0x70040
+80000244:	0b638393          	addi	t2,t2,182 # f00402f6 <mask2>
+80000248:	02038007          	vle8.v	v0,(t2)
+8000024c:	4e81                	li	t4,0
+8000024e:	5e0ec1d7          	vmv.v.x	v3,t4
+80000252:	28618157          	vor.vv	v2,v6,v3,v0.t
+80000256:	70040397          	auipc	t2,0x70040
+8000025a:	0a438393          	addi	t2,t2,164 # f00402fa <mask3>
+8000025e:	02038007          	vle8.v	v0,(t2)
+80000262:	4e81                	li	t4,0
+80000264:	5e0ec1d7          	vmv.v.x	v3,t4
+80000268:	28618157          	vor.vv	v2,v6,v3,v0.t
+8000026c:	70040397          	auipc	t2,0x70040
+80000270:	09238393          	addi	t2,t2,146 # f00402fe <mask4>
+80000274:	02038007          	vle8.v	v0,(t2)
+80000278:	4e81                	li	t4,0
+8000027a:	5e0ec1d7          	vmv.v.x	v3,t4
+8000027e:	28a18157          	vor.vv	v2,v10,v3,v0.t
+80000282:	0e21a257          	vredxor.vs	v4,v2,v3
+80000286:	3a41bb57          	vslideup.vi	v22,v4,3
+8000028a:	296182d7          	vor.vv	v5,v22,v3,v0.t
+8000028e:	020902a7          	vse8.v	v5,(s2)
+80000292:	0911                	addi	s2,s2,4
+80000294:	0991                	addi	s3,s3,4
+80000296:	1ffd                	addi	t6,t6,-1
+80000298:	de0f9fe3          	bnez	t6,80000096 <loop_columns>
+8000029c:	70040917          	auipc	s2,0x70040
+800002a0:	fa690913          	addi	s2,s2,-90 # f0040242 <key>
+800002a4:	70040997          	auipc	s3,0x70040
+800002a8:	d9e98993          	addi	s3,s3,-610 # f0040042 <sbox>
+800002ac:	70040a17          	auipc	s4,0x70040
+800002b0:	d8ca0a13          	addi	s4,s4,-628 # f0040038 <rcon>
+800002b4:	4291                	li	t0,4
+800002b6:	70040497          	auipc	s1,0x70040
+800002ba:	e8c48493          	addi	s1,s1,-372 # f0040142 <allroundkeys>
+800002be:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800002c2:	02090307          	vle8.v	v6,(s2)
+800002c6:	0911                	addi	s2,s2,4
+800002c8:	02090387          	vle8.v	v7,(s2)
+800002cc:	0911                	addi	s2,s2,4
+800002ce:	02090407          	vle8.v	v8,(s2)
+800002d2:	0911                	addi	s2,s2,4
+800002d4:	02090487          	vle8.v	v9,(s2)
+800002d8:	1951                	addi	s2,s2,-12
+800002da:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800002de:	70040e17          	auipc	t3,0x70040
+800002e2:	ff4e0e13          	addi	t3,t3,-12 # f00402d2 <keyRotationOffset>
+800002e6:	70040e97          	auipc	t4,0x70040
+800002ea:	01ce8e93          	addi	t4,t4,28 # f0040302 <keybuffer>
+800002ee:	020e0007          	vle8.v	v0,(t3)
+800002f2:	020e84a7          	vse8.v	v9,(t4)
+800002f6:	060e8507          	vluxei8.v	v10,(t4),v0
+800002fa:	70040997          	auipc	s3,0x70040
+800002fe:	d4898993          	addi	s3,s3,-696 # f0040042 <sbox>
+80000302:	06a98507          	vluxei8.v	v10,(s3),v10
+80000306:	2e650357          	vxor.vv	v6,v6,v10
+8000030a:	4285                	li	t0,1
+8000030c:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000310:	70040a17          	auipc	s4,0x70040
+80000314:	d28a0a13          	addi	s4,s4,-728 # f0040038 <rcon>
+80000318:	9a6e                	add	s4,s4,s11
+8000031a:	0d85                	addi	s11,s11,1
+8000031c:	020a0f07          	vle8.v	v30,(s4)
+80000320:	4291                	li	t0,4
+80000322:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000326:	2e6f0357          	vxor.vv	v6,v6,v30
+8000032a:	0a05                	addi	s4,s4,1
+8000032c:	2e7303d7          	vxor.vv	v7,v7,v6
+80000330:	2e838457          	vxor.vv	v8,v8,v7
+80000334:	2e9404d7          	vxor.vv	v9,v9,v8
+80000338:	70040917          	auipc	s2,0x70040
+8000033c:	f0a90913          	addi	s2,s2,-246 # f0040242 <key>
+80000340:	4291                	li	t0,4
+80000342:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000346:	02090327          	vse8.v	v6,(s2)
+8000034a:	0911                	addi	s2,s2,4
+8000034c:	020903a7          	vse8.v	v7,(s2)
+80000350:	0911                	addi	s2,s2,4
+80000352:	02090427          	vse8.v	v8,(s2)
+80000356:	0911                	addi	s2,s2,4
+80000358:	020904a7          	vse8.v	v9,(s2)
+8000035c:	70040a97          	auipc	s5,0x70040
+80000360:	ef6a8a93          	addi	s5,s5,-266 # f0040252 <stateArray>
+80000364:	70040917          	auipc	s2,0x70040
+80000368:	ede90913          	addi	s2,s2,-290 # f0040242 <key>
+8000036c:	42c1                	li	t0,16
+8000036e:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000372:	02090007          	vle8.v	v0,(s2)
+80000376:	020a8087          	vle8.v	v1,(s5)
+8000037a:	2e100157          	vxor.vv	v2,v1,v0
+8000037e:	020a8127          	vse8.v	v2,(s5)
+80000382:	137d                	addi	t1,t1,-1
+80000384:	ca0317e3          	bnez	t1,80000032 <rounds>
+80000388:	70040a17          	auipc	s4,0x70040
+8000038c:	c78a0a13          	addi	s4,s4,-904 # f0040000 <plaintext>
+80000390:	70040997          	auipc	s3,0x70040
+80000394:	cb298993          	addi	s3,s3,-846 # f0040042 <sbox>
+80000398:	70040a97          	auipc	s5,0x70040
+8000039c:	ebaa8a93          	addi	s5,s5,-326 # f0040252 <stateArray>
+800003a0:	42c1                	li	t0,16
+800003a2:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800003a6:	020a8107          	vle8.v	v2,(s5)
+800003aa:	06298187          	vluxei8.v	v3,(s3),v2
+800003ae:	020a81a7          	vse8.v	v3,(s5)
+800003b2:	42c1                	li	t0,16
+800003b4:	70040497          	auipc	s1,0x70040
+800003b8:	e9e48493          	addi	s1,s1,-354 # f0040252 <stateArray>
+800003bc:	70040917          	auipc	s2,0x70040
+800003c0:	f1a90913          	addi	s2,s2,-230 # f00402d6 <shiftOffset>
+800003c4:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800003c8:	02090087          	vle8.v	v1,(s2)
+800003cc:	06148187          	vluxei8.v	v3,(s1),v1
+800003d0:	020481a7          	vse8.v	v3,(s1)
+800003d4:	70040917          	auipc	s2,0x70040
+800003d8:	e6e90913          	addi	s2,s2,-402 # f0040242 <key>
+800003dc:	70040997          	auipc	s3,0x70040
+800003e0:	c6698993          	addi	s3,s3,-922 # f0040042 <sbox>
+800003e4:	70040a17          	auipc	s4,0x70040
+800003e8:	c54a0a13          	addi	s4,s4,-940 # f0040038 <rcon>
+800003ec:	4291                	li	t0,4
+800003ee:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800003f2:	02090307          	vle8.v	v6,(s2)
+800003f6:	0911                	addi	s2,s2,4
+800003f8:	02090387          	vle8.v	v7,(s2)
+800003fc:	0911                	addi	s2,s2,4
+800003fe:	02090407          	vle8.v	v8,(s2)
+80000402:	0911                	addi	s2,s2,4
+80000404:	02090487          	vle8.v	v9,(s2)
+80000408:	1951                	addi	s2,s2,-12
+8000040a:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+8000040e:	70040e17          	auipc	t3,0x70040
+80000412:	ec4e0e13          	addi	t3,t3,-316 # f00402d2 <keyRotationOffset>
+80000416:	70040e97          	auipc	t4,0x70040
+8000041a:	eece8e93          	addi	t4,t4,-276 # f0040302 <keybuffer>
+8000041e:	020e0007          	vle8.v	v0,(t3)
+80000422:	020e84a7          	vse8.v	v9,(t4)
+80000426:	060e8507          	vluxei8.v	v10,(t4),v0
+8000042a:	70040997          	auipc	s3,0x70040
+8000042e:	c1898993          	addi	s3,s3,-1000 # f0040042 <sbox>
+80000432:	06a98507          	vluxei8.v	v10,(s3),v10
+80000436:	2e650357          	vxor.vv	v6,v6,v10
+8000043a:	4285                	li	t0,1
+8000043c:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000440:	70040a17          	auipc	s4,0x70040
+80000444:	bf8a0a13          	addi	s4,s4,-1032 # f0040038 <rcon>
+80000448:	9a6e                	add	s4,s4,s11
+8000044a:	020a0f07          	vle8.v	v30,(s4)
+8000044e:	0d85                	addi	s11,s11,1
+80000450:	4291                	li	t0,4
+80000452:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000456:	2e6f0357          	vxor.vv	v6,v6,v30
+8000045a:	0a05                	addi	s4,s4,1
+8000045c:	2e7303d7          	vxor.vv	v7,v7,v6
+80000460:	2e838457          	vxor.vv	v8,v8,v7
+80000464:	2e9404d7          	vxor.vv	v9,v9,v8
+80000468:	70040917          	auipc	s2,0x70040
+8000046c:	dda90913          	addi	s2,s2,-550 # f0040242 <key>
+80000470:	4291                	li	t0,4
+80000472:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+80000476:	02090327          	vse8.v	v6,(s2)
+8000047a:	0911                	addi	s2,s2,4
+8000047c:	020903a7          	vse8.v	v7,(s2)
+80000480:	0911                	addi	s2,s2,4
+80000482:	02090427          	vse8.v	v8,(s2)
+80000486:	0911                	addi	s2,s2,4
+80000488:	020904a7          	vse8.v	v9,(s2)
+8000048c:	1951                	addi	s2,s2,-12
+
+8000048e <addRoundKey>:
+8000048e:	70040a97          	auipc	s5,0x70040
+80000492:	dc4a8a93          	addi	s5,s5,-572 # f0040252 <stateArray>
+80000496:	70040917          	auipc	s2,0x70040
+8000049a:	dac90913          	addi	s2,s2,-596 # f0040242 <key>
+8000049e:	42c1                	li	t0,16
+800004a0:	0002f2d7          	vsetvli	t0,t0,e8,m1,tu,mu
+800004a4:	02090007          	vle8.v	v0,(s2)
+800004a8:	020a8087          	vle8.v	v1,(s5)
+800004ac:	2e100157          	vxor.vv	v2,v1,v0
+800004b0:	020a8127          	vse8.v	v2,(s5)
