@@ -3,9 +3,9 @@
 This project implements the AES-128 (Advanced Encryption Standard) algorithm using the vector extension of the RISC-V instruction set architecture. AES-128 is a widely used symmetric encryption algorithm that secures data by converting plaintext into ciphertext using a 128-bit key.
 
 
-#Prerequisites
+**Prerequisites**
 
-#VEER-ISS Setup
+**VEER-ISS Setup**
 Install the following dependency:
 
 libboost-all-dev
@@ -19,7 +19,7 @@ Create a program hex file by converting vector code to machine code in reverse b
 
 Run VEER-ISS using the whisper command.
 
-#RISC-V GNU Toolchain Setup
+**RISC-V GNU Toolchain Setup**
 Install the following dependencies:
 
 autoconf, automake, autotools-dev, curl, python3, python3-pip
